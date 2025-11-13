@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "pinn-passivity-paper"
+version = "0.1.0"
+description = "Physics-Informed Neural Networks with Passivity Constraints for Pendulum Inverse Problems"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.24.0"
+scipy = "^1.11.0"
+matplotlib = "^3.7.0"
+pandas = "^2.0.0"
+tqdm = "^4.65.0"
+torch = "^2.1.0"
+torchvision = "^0.16.0"
+tensorboard = "^2.14.0"
+pyyaml = "^6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+ruff = "^0.1.0"
+black = "^23.7.0"
+pre-commit = "^3.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["src/tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"
+

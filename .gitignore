@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# TensorBoard logs
+runs/
+logs/
+events.out.tfevents.*
+*.pb
+
+# Outputs (you might want to include some for demo)
+outputs/*/checkpoints/*.pt
+outputs/*/checkpoints/*.pth
+*.pt
+*.pth
+
+# Keep some outputs for reference
+!outputs/FINAL_STUDY.md
+!outputs/**/*.csv
+!outputs/**/*.png
+!outputs/**/*.json
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# PyTorch
+*.pt
+*.pth
+
+# Data files (if large)
+# data/*.npy
+# data/*.pkl
+
+# LaTeX auxiliary files (in report folder)
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/*.bbl
+report/*.blg
+report/*.fdb_latexmk
+report/*.fls
+report/*.pdf

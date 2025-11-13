@@ -1,0 +1,21 @@
+# Core dependencies
+numpy>=1.24.0
+scipy>=1.11.0
+matplotlib>=3.7.0
+pandas>=2.0.0
+tqdm>=4.65.0
+
+# ML dependencies
+torch>=2.1.0
+torchvision>=0.16.0
+tensorboard>=2.14.0
+
+# Configuration
+pyyaml>=6.0
+
+# Development dependencies
+pytest>=7.4.0
+ruff>=0.1.0
+black>=23.7.0
+pre-commit>=3.3.0
+

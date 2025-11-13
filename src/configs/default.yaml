@@ -1,0 +1,156 @@
+# Default configuration for PINN Passivity Paper experiments
+
+# Reproducibility
+seed: 1337
+
+# Physical parameters (true values for data generation)
+physics:
+  g: 9.81          # gravitational acceleration (m/s^2)
+  L: 1.0           # pendulum length (m)
+  damping: 0.05    # damping coefficient (1/s)
+  m: 1.0           # pendulum mass (kg)
+
+# Initial conditions
+initial_conditions:
+  theta0_deg: 30.0  # initial angle (degrees)
+  theta0: 0.5236    # initial angle (rad) = pi/6
+  theta_dot0: 0.0   # initial angular velocity (rad/s)
+
+# Time grid
+time:
+  t_start: 0.0
+  t_end: 10.0
+  n_points_dense: 1000   # for collocation
+  n_points_sparse: 100   # for observations (UPDATED: was 20)
+  spacing: "uniform"     # uniform, log, chebyshev
+
+# Data generation
+data:
+  noise_std: 0.01
+  noise_type: "gaussian"  # gaussian, uniform, relative
+  use_small_angle: false
+  subsample_irregular: true
+
+# Model architecture
+model:
+  hidden_layers: [32, 32, 32]
+  activation: "tanh"  # tanh, relu, sigmoid, gelu, silu
+  use_fourier: true
+  num_frequencies: 6
+  architecture: "default"  # default, shallow, deep, wide, adaptive
+
+# Initial parameter guesses (for inverse problem)
+initial_params:
+  g: 10.0
+  L: 1.1
+  damping: 0.08
+
+# Trainable parameters
+trainable:
+  learn_g: true
+  learn_L: true
+  learn_damping: true
+
+# Training
+training:
+  n_epochs: 20000  # UPDATED: was 1000
+  learning_rate: 0.001
+  optimizer: "adam"  # adam, sgd, lbfgs
+  scheduler: "cosine"    # step, exponential, cosine, null
+  batch_size: null   # null for full batch
+  log_interval: 100
+  save_best: false
+
+# Loss weights (λ parameters)
+loss_weights:
+  data: 1.0       # λ_data
+  physics: 10.0   # λ_phys
+  ic: 1.0         # λ_ic
+  passivity: 0.0  # λ_pass
+  velocity: 1.0   # λ_vel (NEW: velocity observation loss)
+  use_velocity_obs: true  # NEW: whether to use velocity observations
+
+# Passivity constraint
+passivity:
+  use_passivity: false
+  weight: 1.0
+  tolerance: 1.0e-5
+  eps: 1.0e-5
+
+# Ensemble configuration
+ensemble:
+  n_models: 25  # UPDATED: was 5
+  method: "bootstrap"  # seed, bootstrap
+  confidence_levels: [0.90, 0.95]
+  use_bootstrap: true
+
+# Dissipation modeling
+dissipation:
+  type: "viscous"  # viscous, nn
+  nn_hidden_layers: [16, 16]
+  use_enhanced_features: true
+
+# Paths
+paths:
+  output_dir: "outputs"
+  checkpoint_dir: "outputs/checkpoints"
+  figures_dir: "outputs/figures"
+  tables_dir: "outputs/tables"
+  logs_dir: "outputs/logs"
+
+# Device
+device: "cpu"  # cpu, cuda, mps
+
+# Experiment grids
+grids:
+  robustness:
+    amplitudes_deg: [10.0, 30.0, 60.0]
+    damping_values: [0.02, 0.05]
+    noise_levels: [0.0, 0.01, 0.05]
+    sparsity_values: [10, 20]
+  
+  ablations:
+    methods: ["no_passivity", "no_physics", "nn_dissipation", "det_passivity", "ens_passivity"]
+
+# Experiment-specific settings
+experiments:
+  baseline:
+    compare_methods: ["small_angle", "nonlinear"]
+    theta0_values_deg: [5.0, 10.0, 15.0, 30.0, 60.0, 90.0]
+    damping_values: [0.0, 0.02, 0.05]
+    
+  inverse_single:
+    passivity_values: [false, true]
+    weight_passivity_values: [0.1, 1.0, 10.0]
+    n_epochs: 5000
+    
+  inverse_ensemble:
+    n_models_values: [25, 50, 100]  # UPDATED: was [5, 7, 10]
+    passivity_values: [false, true]
+    n_epochs: 20000  # UPDATED: was 3000
+    
+  noise_sensitivity:
+    noise_levels: [0.0, 0.01, 0.05, 0.1]
+    
+  architecture_comparison:
+    architectures:
+      shallow: [64]
+      default: [32, 32, 32]
+      deep: [32, 32, 32, 32, 32]
+      wide: [128, 128]
+
+# Plotting
+plotting:
+  dpi: 300
+  formats: ["png", "pdf"]
+  style: "publication"  # publication, presentation, notebook
+  use_latex: false
+  font_size: 12
+  figsize: [10, 6]
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_to_file: true
+  log_to_tensorboard: true
+  verbose: true
